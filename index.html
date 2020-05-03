@@ -196,6 +196,9 @@ END:VCALENDAR
                 var summary = "Responding as " + contactDetails.name + " <" + contactDetails.email + "> from " + contactDetails.location + " (MCRN: " + contactDetails.MCRN + ")";
                 $("#contactDetailsSummary span").text(summary);
                 $("#goToSurveyButton").text("Go to Survey");
+            } 
+            else {
+                $("#contactDetailsSummary").hide();
             }
             checkFormValid();
         });
@@ -435,7 +438,7 @@ END:VCALENDAR
                     </div>
                     <div class="form-row">
                         <p class="text-secondary">
-                            These contact details are saved in a first party cookie in your browser, so that you don't need to fill them out when you next return. You can delete this inforamtion by clearing your cookies, or clicking <a href="#" onclick="clearCookie()">here</a>.
+                            These contact details are saved in a first party cookie in your browser, so that you don't need to fill them out when you next return. You can delete this information by clearing your cookies, or clicking <a href="#" onclick="clearCookie()">here</a>.
                         </p>
                     </div>
 
