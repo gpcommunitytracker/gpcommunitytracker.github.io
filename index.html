@@ -56,19 +56,62 @@
             /* Do not repeat the image */
             background-size: cover;
             /* Resize the background image to cover the entire container */
-            height: 600px;
             text-shadow: 0px 0px 10px #040000;
         }
 
-        @media screen and (min-width: 815px) {
+        .jumbo .lead {
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+        .jumbo .display-3 {
+            font-size: 3rem;
+        }
+        /* Small devices (landscape phones, 576px and up) */
+        @media (min-width: 576px) {  
             .jumbo {
                 height: 400px;
             }
+            .jumbo .lead {
+                font-size: 1.8em;
+            }
+        }
+        
+        /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+        @media (min-width: 768px) {  
+            .jumbo .lead {
+                font-size: 1.8rem;
+                font-weight: 900;
+            }
+            .jumbo .display-3 {
+                font-size: 4.5rem;
+            }
+            /* Remove the padding we set earlier */
+            .footer {
+                padding-right: 0;
+                padding-left: 0;
+            }
+
+            .header {
+                margin-bottom: 30px;
+            }
+        }
+        
+        /* Large devices (desktops, 992px and up) */
+        @media (min-width: 992px) { 
+        
+        }
+        
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {  
+            
         }
 
-        .jumbo .lead {
-            font-size: 1.8em;
-            font-weight: 900;
+        @media screen and (min-width: 600px) {
+            
+        }
+
+        @media screen and (max-width: 600px) {
+            
         }
 
         .container-narrow>hr {
@@ -80,20 +123,11 @@
             border-bottom: 1px solid #e8e8e8;
         }
 
-        /* Responsive: Portrait tablets and up */
-        @media screen and (min-width: 768px) {
-
-            /* Remove the padding we set earlier */
-            .footer {
-                padding-right: 0;
-                padding-left: 0;
-            }
-
-            .header {
-                margin-bottom: 30px;
-            }
+        .faq .card-header {
+            cursor: pointer;
 
         }
+
     </style>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -183,17 +217,16 @@ END:VCALENDAR
             } else {
                 var contactDetails = {
                     name: getQueryString("prefill_name"),
-                    email: getQueryString("prefill_email"),
                     location: getQueryString("prefill_location"),
                     MCRN: getQueryString("prefill_MCRN"),
                 }
             }
-            if(contactDetails && contactDetails.name && contactDetails.email && contactDetails.location && contactDetails.MCRN) {
+            if(contactDetails && contactDetails.name && contactDetails.location && contactDetails.MCRN) {
                 $(".form-row").hide();
                 Object.keys(contactDetails).forEach(function(key) {
                     $("[name=prefill_" + key + "]").val(contactDetails[key]);
                 });
-                var summary = "Responding as " + contactDetails.name + " <" + contactDetails.email + "> from " + contactDetails.location + " (MCRN: " + contactDetails.MCRN + ")";
+                var summary = "Responding as " + contactDetails.name + " from " + contactDetails.location + " (MCRN: " + contactDetails.MCRN + ")";
                 $("#contactDetailsSummary span").text(summary);
                 $("#goToSurveyButton").text("Go to Survey");
             } 
@@ -206,7 +239,6 @@ END:VCALENDAR
         function saveContactDetails() {
             var contactDetails = {
                 name: $("[name=prefill_name]").val(),
-                email: $("[name=prefill_email]").val(),
                 location: $("[name=prefill_location]").val(),
                 MCRN: $("[name=prefill_MCRN]").val()
             };
@@ -215,7 +247,7 @@ END:VCALENDAR
 
         function clearCookie() {
             Cookies.remove("contactDetails");
-            ["name", "email", "location", "MCRN"].forEach(function(fieldname) {
+            ["name", "location", "MCRN"].forEach(function(fieldname) {
                 $("[name=prefill_" + fieldname + "]").val("");
             });
         }
@@ -236,7 +268,6 @@ END:VCALENDAR
         function getSurveyLink() {
             var contactDetails = {
                 prefill_name: $("[name=prefill_name]").val(),
-                prefill_email: $("[name=prefill_email]").val(),
                 prefill_location: $("[name=prefill_location]").val(),
                 prefill_MCRN: $("[name=prefill_MCRN]").val()
             };
@@ -259,7 +290,7 @@ END:VCALENDAR
         }
 
         function checkFormValid() {
-            var formComplete = ["name", "email", "location", "MCRN"].map(function(fieldname) {
+            var formComplete = ["name", "location", "MCRN"].map(function(fieldname) {
                 return Boolean($("[name=prefill_" + fieldname + "]").val());
             }).reduce(function(accumulator, currentValue) {
                 return accumulator && currentValue;
@@ -307,16 +338,54 @@ END:VCALENDAR
             <label for="reminderTime">Remind me every day at:</label>
             <select class="custom-select custom-select-md mb-3" id="reminderTime" required oninput="setupReminderDownload()">
                 <option value="1730" selected>17:30</option>
-                <option value="1700">17:00</option>
-                <option value="1730">17:30</option>
-                <option value="1800">18:00</option>
-                <option value="1830">18:30</option>
-                <option value="1900">19:00</option>
-                <option value="1930">19:30</option>
-                <option value="2000">20:00</option>
-                <option value="2030">20:30</option>
-                <option value="2100">21:00</option>
-                <option value="2130">21:30</option>
+                <option value='0000'>00:00</option>
+                <option value='0030'>00:30</option>
+                <option value='0100'>01:00</option>
+                <option value='0130'>01:30</option>
+                <option value='0200'>02:00</option>
+                <option value='0230'>02:30</option>
+                <option value='0300'>03:00</option>
+                <option value='0330'>03:30</option>
+                <option value='0400'>04:00</option>
+                <option value='0430'>04:30</option>
+                <option value='0500'>05:00</option>
+                <option value='0530'>05:30</option>
+                <option value='0600'>06:00</option>
+                <option value='0630'>06:30</option>
+                <option value='0700'>07:00</option>
+                <option value='0730'>07:30</option>
+                <option value='0800'>08:00</option>
+                <option value='0830'>08:30</option>
+                <option value='0900'>09:00</option>
+                <option value='0930'>09:30</option>
+                <option value='1000'>10:00</option>
+                <option value='1030'>10:30</option>
+                <option value='1100'>11:00</option>
+                <option value='1130'>11:30</option>
+                <option value='1200'>12:00</option>
+                <option value='1230'>12:30</option>
+                <option value='1300'>13:00</option>
+                <option value='1330'>13:30</option>
+                <option value='1400'>14:00</option>
+                <option value='1430'>14:30</option>
+                <option value='1500'>15:00</option>
+                <option value='1530'>15:30</option>
+                <option value='1600'>16:00</option>
+                <option value='1630'>16:30</option>
+                <option value='1700'>17:00</option>
+                <option value='1730'>17:30</option>
+                <option value='1800'>18:00</option>
+                <option value='1830'>18:30</option>
+                <option value='1900'>19:00</option>
+                <option value='1930'>19:30</option>
+                <option value='2000'>20:00</option>
+                <option value='2030'>20:30</option>
+                <option value='2100'>21:00</option>
+                <option value='2130'>21:30</option>
+                <option value='2200'>22:00</option>
+                <option value='2230'>22:30</option>
+                <option value='2300'>23:00</option>
+                <option value='2330'>23:30</option>
             </select>
             <div class="alert alert-warning" id="desktopWarning" style="display:none" role="alert">
                 If you have difficulty adding this invite on your PC, please try again from your phone or tablet.
@@ -340,7 +409,7 @@ END:VCALENDAR
                     <a class="nav-link active" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Results</a>
+                    <a class="nav-link" target="_NEW" href="https://eec69432-b9b1-4c44-a943-961164f27a32.filesusr.com/ugd/1b6e73_fc461cf9e38e44a8a9f78dfbe221a819.pdf">Results</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#about-us">About Us</a>
@@ -367,13 +436,6 @@ END:VCALENDAR
                         <div class="form-group col-md-6">
                             <label for="formName">Your name</label>
                             <input type="text" class="form-control" id="formName" name="prefill_name" placeholder="Your name" required oninput="checkFormValid()">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="formEmail">Email address</label>
-                            <input type="email" class="form-control" id="formEmail" name="prefill_email"
-                                aria-describedby="emailHelp" placeholder="Enter email" required oninput="checkFormValid()">
-                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                                else.</small>
                         </div>
                     </div>
                     <div class="form-row">
@@ -403,7 +465,8 @@ END:VCALENDAR
                                 <option value="Dublin 20">Dublin 20</option>
                                 <option value="Dublin 22">Dublin 22</option>
                                 <option value="Dublin 24">Dublin 24</option>
-                                <option value="Dublin 24">Dublin 24</option>
+                                <option value="South Co Dublin">South Co Dublin</option>
+                                <option value="North Co Dublin">North Co Dublin</option>
                                 <option value="Carlow">Carlow</option>
                                 <option value="Cavan">Cavan</option>
                                 <option value="Clare">Clare</option>
@@ -447,14 +510,14 @@ END:VCALENDAR
                         <span></span>
                         [<a href="#" onclick="showForm()">change</a>]
                     </p>
-                    <button type="button" id="reminderButton" class="btn btn-lg btn-secondary" data-toggle="modal"  data-target="#reminderModal">Setup Daily Reminder</button>
-                    <button type="submit" id="goToSurveyButton" class="btn btn-lg btn-primary" onclick="saveContactDetails()">Save Details and Continue</button>
+                    <button type="button" id="reminderButton" class="btn btn-lg btn-success mb-3 mr-3" data-toggle="modal"  data-target="#reminderModal">Setup Daily Reminder</button>
+                    <button type="submit" id="goToSurveyButton" class="btn btn-lg btn-primary mb-3" onclick="saveContactDetails()">Save Details and Continue</button>
                 </form>
             </div>
         </div>
 
-        <div class="row sponsors mt-5 pt-3 pr-3 pb-3 pl-3">
-            <div class="col-lg">
+        <div class="row sponsors pt-3 mt-5 pr-3 pb-3 pl-3">
+            <div class="col-lg mt-5 ">
                 <div class="row justify-content-center">
                     <h3>Supported By</h3>
                 </div>
@@ -465,7 +528,7 @@ END:VCALENDAR
                     <img src="./assets/Trinity_Main_Logo.jpg" alt="" width="300px">
                 </div>
             </div>
-            <div class="col-lg">
+            <div class="col-lg mt-5 pb-5">
                 <div class="row justify-content-center">
                     <h3>Provided By</h3>
                 </div>
@@ -478,11 +541,177 @@ END:VCALENDAR
             </div>
         </div>
 
+        <div class="faq row pt-3 mt-5 pb-3 pl-1 pr-1">
+            <h2 class="display-4 text-primary">Frequently Asked Questions</h2>
+            <div id="accordion" class="mt-4" style="width: 100%">
+
+                <div class="card">
+                  <div class="card-header" data-toggle="collapse" data-target="#faq1" >
+                        What is the COVID-19 GP Community Tracker?
+                  </div>
+              
+                  <div id="faq1" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        The COVID-19 GP Community Tracker is a daily survey for GPs in Ireland regarding COVID-19
+                        referrals. The tracker was set up to harness the power of General Practice Data to provide
+                        timely actionable data on COVID-19 referrals from GPs. It takes seconds to complete and
+                        the tracker report is available on completion of the survey. The data is provided to the
+                        Department of Health to health in COVID-19 considerations and public health measures.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header"  data-toggle="collapse" data-target="#faq2">
+                    Who is it for?
+                  </div>
+                  <div id="faq2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        We are asking GPs in Ireland to complete the survey every day they work in general
+                        practice, even if no cases of COVID-19 were collected. A "zero referred" is as important to us
+                        as a positive case, as it avoids response bias.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header" data-toggle="collapse" data-target="#faq3" >
+                    What information is collected?
+                  </div>
+                  <div id="faq3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        We ask a few simple questions: where do you work? how many clinically dianosed cases were diagnosed 
+                        in practice today? How many diagnosed cases met the referral criteria? How many positive test results were received in practice today?
+                        We also ask for the name and Medical Council Registration Number of each respondent.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq4" >
+                        Who is this information shared with?
+                    </div>
+                    <div id="faq4" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        The information collected is collated into our GP Community Tracker report, which is released each
+                        workday through GP Buddy and the ICGP, and shared with the Department of Health. The
+                        aggregate data is also provided to the Department of Health and the Central Statistics Office
+                        to aid in COVID-19 considerations and Public Health Measures.
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq5" >
+                        What is the information being used for?
+                    </div>
+                    <div id="faq5" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        The information helps to estimate the average number of cases diagnosed per GP each 
+                        County or Dublin postal district, as well as the average number of cases that are referred for testing. This
+                        gives a better sense of disease activity in the community that is captured by referral numbers alone. It
+                        also reflects the effects of changes in case definition, referral criteria and lifting of
+                        restrictions in the community. As such, it can act as an "early warning system"  to
+                        detect potentially emerging hotspots
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq6" >
+                        Why do I have to fill it in every day?
+                    </div>
+                    <div id="faq6" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        We ask that you complete the short survey each day you work in General Practice (but 
+                        not if you have not worked in General Practice that day). By consistently completing the survey each
+                        day, you help us reduce the change of response bias (i.e., the effect of surveys that are only completed when there
+                        is a positive case diagnosis/referral).
+                      </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq8">
+                        I didn’t work in general practice today, should I still fill in the tracker today?
+                    </div>
+                    <div id="faq8" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        No, please don’t fill in the tracker if you didn’t work in general practice today.
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq9">
+                        I worked in general practice today, but I didn’t diagnose any potential COVID-19 cases. Should I still fill in the tracker for today?
+                    </div>
+                    <div id="faq9" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        Yes, we want to get a sense of the level of the disease in the community – if there are no cases, that is as important to capture as positive cases. 
+
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq10">
+                        I only worked one session in practice today – should I still complete the tracker?
+                    </div>
+                    <div id="faq10" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        Yes absolutely, if you worked 1 or 2 sessions in practice, we would like you to fill in the tracker. 
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq11">
+                        I look after nursing home patients, should I count them as referrals if I have diagnosed them with COVID-19?
+                    </div>
+                    <div id="faq11" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        Yes – we are looking at splitting nursing homes out in the questionnaire, however we want you to complete clinical diagnoses of patients of your practice. 
+
+                        We do not want you to put in asymptomatic referrals (e.g. nursing home patient/staff screening if you have an occupational health role in a care/nursing home) that do not meet the case definition. 
+                        
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq12">
+                        There are three doctors in my practice, can I complete the tracker for the whole practice together?
+                    </div>
+                    <div id="faq12" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        No. We would prefer that you complete the survey just for yourself rather than for all GPs in the practice. This reduces the risk of duplication of survey answers. 
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#faq13">
+                        How do I access the survey?
+                    </div>
+                    <div id="faq13" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                      <div class="card-body">
+                        Please visit <a href="https://gpcommunitytracker.com">gpcommunitytracker.com</a> to access the survey. 
+                        The first time you complete the survey, your contact information will be saved in your web browser, so that you don't have to enter it again in the future.
+                        You will also find an option to add a daily reminder to complete the survey to your calendar, which containers a unique link 
+                        that auto-completes your contact information. 
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+        </div>
+
         <div class="row about-us mt-3 pt-5 pr-3 pb-3 pl-3" id="about-us">
             <div class="col">
                 <h2 class="display-4 text-primary">About Us</h2>
                 <p class="lead">
-                    The GP #COVID19Communitytracker is the result of a collaboration between front line GPs, and GP IT
+                    The GP <a href="https://twitter.com/hashtag/COVID19CommunityTracker" target="_NEW">#COVID19CommunityTracker</a> is the result of a collaboration between front line GPs, and GP IT
                     and data
                     specialists.
                     We realized that, in General Practice, we could help monitor trends in COVID-19 activity in the
@@ -505,10 +734,10 @@ END:VCALENDAR
         <div class="col">
             <h2 class="display-4 text-primary mb-3">Meet the Team</h2>
             <div class="row mb-5">
-                <div class="col-auto">
-                    <img src="./assets/darach.jpg" alt="">
+                <div class="col-auto mb-2">
+                    <img src="./assets/darach.jpg" alt="Dr Darach O'Ciardha photo">
                 </div>
-                <div class="col">
+                <div class="col-md">
                     <h4 class="text-primary">Dr Darach O'Ciardha</h4>
                     <p>
                         Darach is a GP Partner in the “GPs at Tallaght Cross ” practice. He holds the position of
@@ -520,10 +749,10 @@ END:VCALENDAR
             </div>
 
             <div class="row mb-5">
-                <div class="col-auto">
-                    <img src="./assets/knut.jpg" alt="">
+                <div class="col-auto mb-2">
+                    <img src="./assets/knut.jpg" alt="Dr Knut Moe photo">
                 </div>
-                <div class="col">
+                <div class="col-md">
                     <h4 class="text-primary">Dr Knut Moe</h4>
                     <p>
                         Dr Knut Moe is a GP based in South Dublin and is Managing Partner of Churchtown Family Practice.
@@ -537,10 +766,10 @@ END:VCALENDAR
             </div>
 
             <div class="row mb-5">
-                <div class="col-auto">
-                    <img src="./assets/shane.jpg" alt="">
+                <div class="col-auto mb-2">
+                    <img src="./assets/shane.jpg" alt="Dr Shane McKeogh photo">
                 </div>
-                <div class="col">
+                <div class="col-md">
                     <h4 class="text-primary">Dr Shane McKeogh</h4>
                     <p>
                         Shane graduated from UCD Medical School in 2000 and as a General Practitioner from RCSI in 2006.
@@ -553,10 +782,10 @@ END:VCALENDAR
             </div>
 
             <div class="row mb-5">
-                <div class="col-auto">
-                    <img src="./assets/dylan.jpg" alt="">
+                <div class="col-auto mb-2">
+                    <img src="./assets/dylan.jpg" alt="Dr Dylan Creane photo">
                 </div>
-                <div class="col">
+                <div class="col-md">
                     <h4 class="text-primary">Dr Dylan Creane</h4>
                     <p>
                         Dr Dylan Creane is a medical doctor with a background in computer science and data
@@ -568,10 +797,10 @@ END:VCALENDAR
             </div>
 
             <div class="row mb-5">
-                <div class="col-auto">
-                    <img src="./assets/tony.jpg" alt="">
+                <div class="col-auto mb-2">
+                    <img src="./assets/tony.jpg" alt="Tony Ryan photo">
                 </div>
-                <div class="col">
+                <div class="col-md">
                     <h4 class="text-primary">Tony Ryan</h4>
                     <p>
                         Tony Ryan is the CEO and founder of MedVault Health. He holds an honours engineering degree and
@@ -583,10 +812,10 @@ END:VCALENDAR
             </div>
 
             <div class="row mb-5">
-                <div class="col-auto">
-                    <img src="./assets/eoin.jpg" alt="">
+                <div class="col-auto mb-2">
+                    <img src="./assets/eoin.jpg" alt="Eoin Newell photo">
                 </div>
-                <div class="col">
+                <div class="col-md">
                     <h4 class="text-primary">Eoin Newell</h4>
                     <p>
                         Eoin is a director of GPBuddy.ie, having been with the Company since its beginning. He holds a
@@ -598,15 +827,30 @@ END:VCALENDAR
             </div>
 
             <div class="row mb-5">
-                <div class="col-auto">
-                    <img src="./assets/joe.jpg" alt="">
+                <div class="col-auto mb-2">
+                    <img src="./assets/joe.jpg" alt="Joe Newell photo">
                 </div>
-                <div class="col">
+                <div class="col-md">
                     <h4 class="text-primary">Joe Newell</h4>
                     <p>
                         Joe is the CEO and founder of GPBuddy.ie. He has spent over 10 years working in technology
                         startups. In 2007, Joe received his MBA from the Wharton School, University of Pennsylvania. He
                         graduated from UCD with a degree in Electronic Engineering in 2000.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-auto mb-2">
+                    <img src="./assets/sean.jpg" width="196px" alt="Sean Blanchfield photo">
+                </div>
+                <div class="col-md">
+                    <h4 class="text-primary">Sean Blanchfield</h4>
+                    <p>
+                        Sean is a serial entrepreneur and technologist, and has previously founded a number of well-known Irish software companies,
+                        including PageFair, Demonware and Phorest. Sean is currently CEO of Nuium Limited, a software company that is building a portfolio
+                        of apps to help SMEs with day-to-day business operations. Sean holds a First Class Honours degree in Computer Engineering from 
+                        Trinity College Dublin.
                     </p>
                 </div>
             </div>
@@ -628,11 +872,6 @@ END:VCALENDAR
                 <div class="pr-5">
                     <a href="https://www.twitter.com/gpbuddy"><img src="./assets/twitter.png" alt="" width="32px"
                             height="32px"></a>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div>
-                    &copy; 2020 MedVault Health Ltd
                 </div>
             </div>
         </div>
